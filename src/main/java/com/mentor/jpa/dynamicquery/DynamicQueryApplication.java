@@ -9,10 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan({"com.mentor.jpa"})
 @EnableJpaRepositories(basePackages = {"com.mentor.jpa"})
 public class DynamicQueryApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(DynamicQueryApplication.class, args);
     }
-
 }
-
