@@ -40,6 +40,10 @@ public class Department implements Serializable {
     @Size(max = 64)
     private String code;
 
+    @NotBlank
+    @Size(max = 64)
+    private String unit;
+
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Employee> departments;

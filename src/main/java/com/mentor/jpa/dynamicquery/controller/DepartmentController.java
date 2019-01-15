@@ -23,7 +23,8 @@ public class DepartmentController {
     @GetMapping("/department")
     public List<Department> getAllDepartment() {
         final List<SearchData> searchDataList = new ArrayList<>();
-        searchDataList.add(new SearchData("code", "001"));
+        searchDataList.add(new SearchData("code", "00"));
+        searchDataList.add(new SearchData("unit", "not"));
         return departmentService.getDynamicSearch(searchDataList);
     }
 }
