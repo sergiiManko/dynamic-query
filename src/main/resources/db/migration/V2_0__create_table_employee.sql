@@ -12,7 +12,7 @@ INSERT INTO employee(name, department_id)
 VALUES ('Ivan', (SELECT id FROM department WHERE department.code = 'DP001'));
 
 INSERT INTO employee(name, department_id)
-VALUES ('Ivan', (SELECT id FROM department WHERE department.code = 'DP002'));
+VALUES ('Sergii', (SELECT id FROM department WHERE department.code = 'DP002'));
 
 INSERT INTO employee(name, department_id)
-VALUES ('Ivan', (SELECT id FROM department WHERE department.code = 'DP001'));
+VALUES ('Artem', (SELECT id FROM department WHERE department.code = 'DP001'));
