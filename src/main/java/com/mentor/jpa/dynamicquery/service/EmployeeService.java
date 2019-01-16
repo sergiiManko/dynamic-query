@@ -24,11 +24,14 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> getDynamicEmployeeSearch(SearchData searchData) {
+    public List<Employee> getDynamicEmployeeSearch(List<SearchData> searchDataList) {
         List<Employee> employeesList = new ArrayList<>();
-        if (searchData != null) {
-            Specification<Employee> spec = new EmployeeSpecification(searchData);
-            employeesList = employeeRepository.findAll(spec);
+        Specification<Employee> specification = new EmployeeSpecification();
+        if (searchDataList != null) {
+            for (SearchData data : searchDataList) {
+                specification = Specification.where(specification).and(new EmployeeSpecification(data));
+            }
+            employeesList = employeeRepository.findAll(specification);
             return employeesList;
         }
         return employeesList;
