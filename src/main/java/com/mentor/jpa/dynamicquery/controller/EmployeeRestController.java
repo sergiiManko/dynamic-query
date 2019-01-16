@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +25,8 @@ public class EmployeeRestController {
 
     @GetMapping("/employee")
     public List<Employee> getAllEmployee() {
-        return employeeService.getDynamicEmployeeSearch(new SearchData("code", "01"));
+        final List<SearchData> searchDataList = new ArrayList<>();
+        searchDataList.add(new SearchData("code", "01"));
+        return employeeService.getDynamicEmployeeSearch(searchDataList);
     }
 }
