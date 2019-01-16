@@ -1,6 +1,7 @@
 package com.mentor.jpa.dynamicquery.specification;
 
 import com.mentor.jpa.dynamicquery.core.SearchData;
+import com.mentor.jpa.dynamicquery.core.SearchDataDepartment;
 import com.mentor.jpa.dynamicquery.domain.Department;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,7 +16,7 @@ import javax.persistence.criteria.Root;
  */
 @NoArgsConstructor
 public class DepartmentSpecification implements Specification<Department> {
-    private transient SearchData searchData = null;
+    private SearchData searchData;
 
     public DepartmentSpecification(final SearchData searchData) {
         this.searchData = searchData;
@@ -23,7 +24,7 @@ public class DepartmentSpecification implements Specification<Department> {
 
     @Override
     public Predicate toPredicate(final Root<Department> root, final CriteriaQuery<?> criteriaQuery, final CriteriaBuilder criteriaBuilder) {
-        if (searchData != null) {
+        if (searchData instanceof SearchDataDepartment) {
             return criteriaBuilder.like(criteriaBuilder.lower(root.get(searchData.getFieldName()).as(String.class)),
                     "%" + searchData.getValue().trim().toLowerCase() + "%");
         }

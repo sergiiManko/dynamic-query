@@ -1,6 +1,8 @@
 package com.mentor.jpa.dynamicquery.specification;
 
 import com.mentor.jpa.dynamicquery.core.SearchData;
+import com.mentor.jpa.dynamicquery.core.SearchDataDepartment;
+import com.mentor.jpa.dynamicquery.core.SearchDataEmployee;
 import com.mentor.jpa.dynamicquery.domain.Employee;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -31,21 +33,15 @@ public class EmployeeSpecification implements Specification<Employee> {
      */
     @Override
     public Predicate toPredicate(Root<Employee> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-        if (searchData != null) {
-            switch (searchData.getFieldName()) {
-                case "name":
-                    return criteriaBuilder.like(criteriaBuilder.lower(root.get(searchData.getFieldName()).as(String.class)),
+        if (searchData instanceof SearchDataEmployee) {
+            return criteriaBuilder.like(criteriaBuilder.lower(root.get(searchData.getFieldName()).as(String.class)),
+                    "%" + searchData.getValue().trim().toLowerCase() + "%");
+        }
+        if (searchData instanceof SearchDataDepartment) {
+            return criteriaBuilder
+                    .like(root.join("department")
+                                    .get(searchData.getFieldName()).as(String.class),
                             "%" + searchData.getValue().trim().toLowerCase() + "%");
-
-                case "code":
-                    return criteriaBuilder
-                            .like(root.join("department")
-                                            .get(searchData.getFieldName()).as(String.class),
-                                    "%" + searchData.getValue().trim().toLowerCase() + "%");
-
-                default:
-                    return null;
-            }
         }
         return null;
     }
