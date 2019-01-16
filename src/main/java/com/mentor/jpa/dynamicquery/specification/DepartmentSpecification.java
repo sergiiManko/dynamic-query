@@ -16,7 +16,7 @@ import javax.persistence.criteria.Root;
  */
 @NoArgsConstructor
 public class DepartmentSpecification implements Specification<Department> {
-    private SearchData searchData;
+    private transient SearchData searchData;
 
     public DepartmentSpecification(final SearchData searchData) {
         this.searchData = searchData;
