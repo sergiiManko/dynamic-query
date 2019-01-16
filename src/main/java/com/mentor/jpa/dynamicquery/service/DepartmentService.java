@@ -23,11 +23,11 @@ public class DepartmentService {
         this.departmentRepository = departmentRepository;
     }
 
-    public List<Department> getDynamicSearch(List<SearchData> searchData) {
+    public List<Department> getDynamicSearch(List<SearchData> searchDataList) {
         Specification<Department> specification = new DepartmentSpecification();
 
-        for (SearchData searchData1 : searchData) {
-            specification = Specification.where(specification).and(new DepartmentSpecification(searchData1));
+        for (SearchData searchData : searchDataList) {
+            specification = Specification.where(specification).and(new DepartmentSpecification(searchData));
         }
 
         return departmentRepository.findAll(specification);
