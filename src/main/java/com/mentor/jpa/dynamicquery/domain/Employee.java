@@ -1,5 +1,6 @@
 package com.mentor.jpa.dynamicquery.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,6 +44,7 @@ public class Employee implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "departmentId")
+    @JsonIgnore
     private Department department;
 
     @Column(nullable = false, insertable = false, updatable = false)

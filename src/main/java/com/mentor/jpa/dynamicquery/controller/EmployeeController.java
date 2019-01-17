@@ -26,8 +26,8 @@ public class EmployeeController {
     @GetMapping("/all")
     public List<Employee> getEmployeeSearch() {
         List<SearchData> searchDataList = new ArrayList<>();
-        searchDataList.add(new SearchData("code", "001"));
         searchDataList.add(new SearchData("name", "Ivan"));
+        searchDataList.add(new SearchData("code", "001"));
         return employeeService.getEmployeeBySearchData(searchDataList);
     }
 }

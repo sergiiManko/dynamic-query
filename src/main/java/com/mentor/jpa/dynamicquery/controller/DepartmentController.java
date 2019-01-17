@@ -25,7 +25,7 @@ public class DepartmentController {
     @GetMapping("/list")
     public ResponseEntity<List<Department>> getDepartment() {
         List<SearchData> searchDataList = new ArrayList<>();
-        searchDataList.add(new SearchData("code", "00"));
+        searchDataList.add(new SearchData("code", "002"));
         searchDataList.add(new SearchData("unit", "not"));
         return new ResponseEntity<>(departmentService.getAllDepartmentBySearchData(searchDataList), HttpStatus.OK);
     }

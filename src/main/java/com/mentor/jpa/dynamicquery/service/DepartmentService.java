@@ -3,10 +3,10 @@ package com.mentor.jpa.dynamicquery.service;
 import com.mentor.jpa.dynamicquery.core.SearchData;
 import com.mentor.jpa.dynamicquery.domain.Department;
 import com.mentor.jpa.dynamicquery.repository.DepartmentRepository;
-import com.mentor.jpa.dynamicquery.specification.DepartmentSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +20,19 @@ public class DepartmentService {
 
     public List<Department> getAllDepartmentBySearchData(final List<SearchData> searchDataList) {
         List<Department> result = new ArrayList<>();
-        Specification<Department> specification = new DepartmentSpecification();
+        Specification<Department> specification;
         if (searchDataList != null) {
-            for (SearchData searchData : searchDataList) {
-                specification = Specification.where(new DepartmentSpecification(searchData));
-            }
+            specification = Specification.where((Specification<Department>) (root, query, criteriaBuilder) -> {
+                List<Predicate> predicates = new ArrayList<>();
+                if (!searchDataList.isEmpty()) {
+                    for (SearchData searchData : searchDataList) {
+                        predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get(searchData.getFieldName()).as(String.class)),
+                                "%" + searchData.getValue().trim().toLowerCase() + "%"));
+                    }
+                    return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
+                }
+                return null;
+            });
             result = departmentRepository.findAll(specification);
         }
         return result;

@@ -11,3 +11,5 @@ INSERT INTO department(code)
 VALUES ('DP001');
 INSERT INTO department(code)
 VALUES ('DP002');
+INSERT INTO department(code)
+VALUES ('DP003');
