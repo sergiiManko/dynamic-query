@@ -36,8 +36,9 @@ public class EmployeeService {
                     }
 
                     if (searchData instanceof SearchDataDepartment) {
+                        SearchDataDepartment searchDataDepartment = (SearchDataDepartment) searchData;
                         predicates.add(criteriaBuilder
-                                .like(root.join("department")
+                                .like(root.join(searchDataDepartment.getNameTable())
                                                 .get(searchData.getFieldName()).as(String.class),
                                         "%" + searchData.getValue().trim().toLowerCase() + "%"));
                     }
