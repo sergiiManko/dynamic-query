@@ -1,6 +1,8 @@
 package com.mentor.jpa.dynamicquery.controller;
 
 import com.mentor.jpa.dynamicquery.core.SearchData;
+import com.mentor.jpa.dynamicquery.core.SearchDataDepartment;
+import com.mentor.jpa.dynamicquery.core.SearchDataEmployee;
 import com.mentor.jpa.dynamicquery.domain.Employee;
 import com.mentor.jpa.dynamicquery.service.EmployeeService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +28,8 @@ public class EmployeeController {
     @GetMapping("/all")
     public List<Employee> getEmployeeSearch() {
         List<SearchData> searchDataList = new ArrayList<>();
-        searchDataList.add(new SearchData("name", "Ivan"));
-        searchDataList.add(new SearchData("code", "001"));
+        searchDataList.add(new SearchDataEmployee("name", "Ivan"));
+        searchDataList.add(new SearchDataDepartment("code", "001"));
         return employeeService.getEmployeeBySearchData(searchDataList);
     }
 }

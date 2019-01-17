@@ -1,6 +1,7 @@
 package com.mentor.jpa.dynamicquery.controller;
 
 import com.mentor.jpa.dynamicquery.core.SearchData;
+import com.mentor.jpa.dynamicquery.core.SearchDataDepartment;
 import com.mentor.jpa.dynamicquery.domain.Department;
 import com.mentor.jpa.dynamicquery.service.DepartmentService;
 import org.springframework.http.HttpStatus;
@@ -25,8 +26,8 @@ public class DepartmentController {
     @GetMapping("/list")
     public ResponseEntity<List<Department>> getDepartment() {
         List<SearchData> searchDataList = new ArrayList<>();
-        searchDataList.add(new SearchData("code", "002"));
-        searchDataList.add(new SearchData("unit", "not"));
+        searchDataList.add(new SearchDataDepartment("code", "002"));
+        searchDataList.add(new SearchDataDepartment("unit", "not"));
         return new ResponseEntity<>(departmentService.getAllDepartmentBySearchData(searchDataList), HttpStatus.OK);
     }
 }

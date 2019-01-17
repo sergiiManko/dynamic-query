@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public final class SearchData {
+public abstract class SearchData {
     private String fieldName;
     private String value;
 }

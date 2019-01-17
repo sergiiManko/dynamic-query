@@ -10,6 +10,9 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Artem Kudria
+ */
 @Service
 public class DepartmentService {
     private DepartmentRepository departmentRepository;
@@ -24,14 +27,11 @@ public class DepartmentService {
         if (searchDataList != null) {
             specification = Specification.where((Specification<Department>) (root, query, criteriaBuilder) -> {
                 List<Predicate> predicates = new ArrayList<>();
-                if (!searchDataList.isEmpty()) {
-                    for (SearchData searchData : searchDataList) {
-                        predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get(searchData.getFieldName()).as(String.class)),
-                                "%" + searchData.getValue().trim().toLowerCase() + "%"));
-                    }
-                    return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
+                for (SearchData searchData : searchDataList) {
+                    predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get(searchData.getFieldName()).as(String.class)),
+                            "%" + searchData.getValue().trim().toLowerCase() + "%"));
                 }
-                return null;
+                return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
             });
             result = departmentRepository.findAll(specification);
         }

@@ -1,6 +1,8 @@
 package com.mentor.jpa.dynamicquery.service;
 
 import com.mentor.jpa.dynamicquery.core.SearchData;
+import com.mentor.jpa.dynamicquery.core.SearchDataDepartment;
+import com.mentor.jpa.dynamicquery.core.SearchDataEmployee;
 import com.mentor.jpa.dynamicquery.domain.Employee;
 import com.mentor.jpa.dynamicquery.repository.EmployeeRepository;
 import org.springframework.data.jpa.domain.Specification;
@@ -27,26 +29,20 @@ public class EmployeeService {
         if (searchDataList != null) {
             specification = Specification.where((Specification<Employee>) (root, query, criteriaBuilder) -> {
                 List<Predicate> predicates = new ArrayList<>();
-                if (!searchDataList.isEmpty()) {
-                    for (SearchData searchData : searchDataList) {
-                        switch (searchData.getFieldName()) {
-                            case "name":
-                                return criteriaBuilder.like(criteriaBuilder.lower(root.get(searchData.getFieldName()).as(String.class)),
-                                        "%" + searchData.getValue().trim().toLowerCase() + "%");
-
-                            case "code":
-                                return criteriaBuilder
-                                        .like(root.join("department")
-                                                        .get(searchData.getFieldName()).as(String.class),
-                                                "%" + searchData.getValue().trim().toLowerCase() + "%");
-
-                            default:
-                                return null;
-                        }
+                for (SearchData searchData : searchDataList) {
+                    if (searchData instanceof SearchDataEmployee) {
+                        predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get(searchData.getFieldName()).as(String.class)),
+                                "%" + searchData.getValue().trim().toLowerCase() + "%"));
                     }
-                    return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
+
+                    if (searchData instanceof SearchDataDepartment) {
+                        predicates.add(criteriaBuilder
+                                .like(root.join("department")
+                                                .get(searchData.getFieldName()).as(String.class),
+                                        "%" + searchData.getValue().trim().toLowerCase() + "%"));
+                    }
                 }
-                return null;
+                return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
             });
             result = employeeRepository.findAll(specification);
         }
